@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>핑크베이비시터 - 흐엉 시터 프로필</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff70a1;
+            --primary-light: #ffd6e4;
+            --secondary: #8a63d2;
+            --accent: #63a4ff;
+            --text: #333333;
+            --text-light: #666666;
+            --background: #ffffff;
+            --background-light: #f8f9fa;
+            --border: #e0e0e0;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', 'Nanum Gothic', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #fdf2f8 0%, #f0f4ff 100%);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: var(--background);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.07)"/></svg>');
+            background-size: 100% 100%;
+            transform: rotate(15deg);
+            z-index: 1;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .logo span {
+            color: var(--primary-light);
+        }
+        
+        header p {
+            font-size: 16px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .intro-text {
+            background-color: var(--primary-light);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            font-weight: 500;
+            color: #7e3d6d;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .sitter-profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            position: relative;
+        }
+        
+        .profile-image-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin-bottom: 25px;
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-light);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .profile-image:hover {
+            transform: scale(1.03);
+            border-color: var(--primary);
+        }
+        
+        .online-status {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: #4caf50;
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .sitter-name {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text);
+            text-align: center;
+        }
+        
+        .sitter-fullname {
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 5px;
+            font-size: 18px;
+        }
+        
+        .sitter-title {
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, var(--primary-light) 0%, #ffe4f0 100%);
+            color: var(--secondary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+        
+        .badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .badge i {
+            font-size: 12px;
+        }
+        
+        .info-section {
+            padding: 30px;
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        
+        .info-section:hover {
+            background-color: #fcfcfc;
+        }
+        
+        .info-section:last-child {
+            border-bottom: none;
+        }
+        
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+        
+        .section-title i {
+            color: var(--primary);
+            background: var(--primary-light);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .languages {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        
+        .language-tag {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6eeff 100%);
+            padding: 10px 20px;
+            border-radius: 24px;
+            font-weight: 500;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+        
+        .language-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .language-tag i {
+            color: var(--accent);
+        }
+        
+        .documents {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .document-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 16px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .document-item:hover {
+            background: linear-gradient(135deg, #f1f3f5 0%, #e9ecef 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+        }
+        
+        .document-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .document-status {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+        }
+        
+        .document-preview {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+            animation: fadeIn 0.4s ease-out;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .document-preview img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .document-preview img:hover {
+            transform: scale(1.02);
+        }
+        
+        .experience-item {
+            margin-bottom: 25px;
+            padding-left: 15px;
+            border-left: 3px solid var(--primary);
+            transition: var(--transition);
+        }
+        
+        .experience-item:hover {
+            border-left: 3px solid var(--secondary);
+        }
+        
+        .experience-period {
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 8px;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .experience-period i {
+            color: var(--primary);
+        }
+        
+        .experience-detail {
+            color: var(--text-light);
+            padding-left: 10px;
+        }
+        
+        .safety-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--background-light);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .safety-item:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+            transform: translateX(5px);
+        }
+        
+        .safety-item i {
+            font-size: 24px;
+            color: var(--secondary);
+            background: var(--primary-light);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 18px;
+            border-radius: var(--radius);
+            border: none;
+            font-weight: 600;
+            font-size: 17px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #ff4d94 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ff4d94 0%, var(--primary) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(255, 77, 148, 0.3);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 14px;
+            background: var(--background);
+            border-top: 1px solid var(--border);
+        }
+        
+        .document-waiting {
+            background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%) !important;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+            }
+            
+            .sitter-profile {
+                padding: 20px 15px;
+            }
+            
+            .profile-image-container {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .sitter-name {
+                font-size: 26px;
+            }
+            
+            .info-section {
+                padding: 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .documents {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">핑크<span>베이비시터</span></div>
+            <p>믿을 수 있는 베이비시터 매칭 서비스</p>
+        </header>
+        
+        <div class="intro-text">
+            <p>안녕하세요! 저희 핑크베이비시터를 이용해 주셔서 감사합니다. 아래는 흐엉 시터님의 상세 프로필입니다. 마음에 드신다면 예약 문의를 남겨주세요!</p>
+        </div>
+        
+        <div class="sitter-profile">
+            <div class="profile-image-container">
+                <img src="https://github.com/Edu-bro/pinkbaby/blob/main/images/hung/1.jpg?raw=true" alt="흐엉 시터" class="profile-image">
+                <div class="online-status"></div>
+            </div>
+            <h1 class="sitter-name">흐엉</h1>
+            <div class="sitter-fullname">쩐 티 응옥 흐엉</div>
+            <div class="sitter-title">베이비시터 4년차 · 딸 둘, 아들 하나의 엄마</div>
+            
+            <div class="badges">
+                <div class="badge"><i class="fas fa-swimmer"></i> 수영능력 보유</div>
+                <div class="badge"><i class="fas fa-check-circle"></i> 다자녀 육아 경험</div>
+                <div class="badge"><i class="fas fa-heart"></i> 아이들과 잘 어울려요</div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2 class="section-title"><i class="fas fa-comment-dots"></i> 사용 가능 언어</h2>
+            <div class="languages">
+                <span class="language-tag"><i class="fas fa-language"></i> 한국어 (기초 회화)</span>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2 class="section-title"><i class="fas fa-user"></i> 자기소개</h2>
+            <p>안녕하세요. 저는 항상 아이들에게 사랑과 정성을 다하는 따뜻한 베이비시터입니다.</p>
+            <p>지금은 세 아이의 엄마이기도 해요 – 딸 둘, 아들 하나! 직접 육아를 해오면서 아이들의 성장 단계를 더 깊이 이해하게 되었죠.</p>
+            <p>저에게 아이를 돌보는 일은 그저 밥 먹이고 재우는 걸 넘어서, 아이 한 명 한 명이 즐겁고 안전하게, 그리고 자신감 있게 자라날 수 있도록 따뜻하게 옆에서 지켜보고 응원해주는 일이라고 생각해요. 사랑과 진심을 다해, 언제나 내 가족처럼 소중하게 아이들을 보살피겠습니다.</p>
+        </div>
+        
+        <div class="info-section">
+            <h2 class="section-title"><i class="fas fa-shield-alt"></i> 안전 및 특기 사항</h2>
+            <div class="safety-item">
+                <i class="fas fa-swimming-pool"></i>
+                <div>
+                    <h3>수영 및 수상 스포츠 감독</h3>
+                    <p>저의 강점은 수영을 잘하고 아이들이 물에서 안전하게 노는 것을 감독할 수 있다는 것입니다.</p>
+                </div>
+            </div>
+            <div class="safety-item">
+                <i class="fas fa-music"></i>
+                <div>
+                    <h3>노래 및 놀이 활동</h3>
+                    <p>인기노래를 함께 부르고 함께 춤을 추거나 그림을 그리고 놀 수 있고 아이들과 다양한 많은 놀이가 가능합니다.</p>
+                </div>
+            </div>
+            <div class="safety-item">
+                <i class="fas fa-heartbeat"></i>
+                <div>
+                    <h3>응급처치 기술</h3>
+                    <p>매년 한번씩 병원에 가서 응급상황 대응 및 심폐소생술(CPR) 교육을 이수하고 있습니다. 돌발 상황에도 침착하게 대처할 수 있습니다.</p>
+                </div>
+            </div>
+            <div class="safety-item">
+                <i class="fas fa-syringe"></i>
+                <div>
+                    <h3>예방접종 완료</h3>
+                    <p>예방접종(홍역, 독감, 백일해, 파상풍, 광견병 등)은 핑크베이비시터의 지원을 통해 모두 완료하였습니다.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2 class="section-title"><i class="fas fa-briefcase"></i> 근무 경험</h2>
+            <div class="experience-item">
+                <div class="experience-period"><i class="far fa-calendar-alt"></i> 2022.03 - 현재</div>
+                <div class="experience-detail">
+                    <p>핑크베이비시터(Pink Babysitter)에서 근무하고 있으며, 생후 2개월 된 신생아부터 12세 아동까지 다양한 연령대의 아이들을 돌보고 있습니다.</p>
+                    <p>평균적으로 연간 50~70가구의 가정을 방문하여 아이들을 돌보는 실질적이고 풍부한 현장 경험을 쌓아왔습니다.</p>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="experience-period"><i class="far fa-calendar-alt"></i> 2021년 ~ 현재</div>
+                <div class="experience-detail">
+                    <p>육아를 하면서 베이비시터 업무를 수행했습니다.</p>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="experience-period"><i class="far fa-calendar-alt"></i> 주요 업무</div>
+                <div class="experience-detail">
+                    <p>매일 아침 인사부터 식사 준비, 창의적인 놀이 활동, 수영 후 목욕, 개인 위생 관리, 잠자리 준비까지 아이들의 하루 일과를 책임감 있게 함께하며 세심하게 돌보는 업무를 수행하고 있습니다.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2 class="section-title"><i class="fas fa-file-alt"></i> 제출 서류 현황</h2>
+            <div class="documents">
+                <div class="document-item" onclick="toggleDocument('vaccine')">
+                    <div class="document-info">
+                        <span class="document-status"><i class="fas fa-check"></i></span>
+                        <span>예방접종 증명서</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="document-preview" id="vaccine">
+                    <p>예방접종 완료 증명서</p>
+                    <img src="https://github.com/Edu-bro/pinkbaby/blob/main/images/hung/2.jpg?raw=true" alt="예방접종 증명서">
+                </div>
+                
+                <div class="document-item" onclick="toggleDocument('criminal-record')">
+                    <div class="document-info">
+                        <span class="document-status"><i class="fas fa-check"></i></span>
+                        <span>범죄사실 증명서</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="document-preview" id="criminal-record">
+                    <p>범죄경력조회회보서</p>
+                    <img src="https://github.com/Edu-bro/pinkbaby/blob/main/images/hung/3.jpg?raw=true" alt="범죄사실 증명서">
+                </div>
+                
+                <div class="document-item" onclick="toggleDocument('id')">
+                    <div class="document-info">
+                        <span class="document-status"><i class="fas fa-check"></i></span>
+                        <span>신분증</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="document-preview" id="id">
+                    <p>신분증 사본</p>
+                    <img src="https://github.com/Edu-bro/pinkbaby/blob/main/images/hung/4.jpg?raw=true" alt="신분증">
+                </div>
+            </div>
+            <p style="margin-top: 15px; font-size: 14px; color: var(--text-light);">* 필요시 고객님께 서류 사본을 제공해 드립니다.</p>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="window.open('https://pf.kakao.com/_xdxgsbn', '_blank')"><i class="fas fa-calendar-check"></i> 예약 문의하기</button>
+        </div>
+        
+        <footer>
+            <p>© 2023 핑크베이비시터. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 문서 토글 기능
+        function toggleDocument(id) {
+            const docElement = document.getElementById(id);
+            const isVisible = docElement.style.display === 'block';
+            
+            // 모든 문서 미리보기 숨기기
+            document.querySelectorAll('.document-preview').forEach(doc => {
+                doc.style.display = 'none';
+            });
+            
+            // 모든 화살표 방향 초기화
+            document.querySelectorAll('.document-item i.fas').forEach(icon => {
+                icon.className = 'fas fa-chevron-down';
+            });
+            
+            // 선택한 문서 표시/숨기기
+            if (!isVisible) {
+                docElement.style.display = 'block';
+                event.currentTarget.querySelector('i.fas').className = 'fas fa-chevron-up';
+            }
+        }
+    </script>
+</body>
+</html>
