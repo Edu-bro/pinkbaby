@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👶 베이비시터 예약 - 핑크베이비시터</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 🎀 핑크 컬러 테마 */
+        :root {
+            --primary: #FF69B4;
+            --secondary: #FFB6C1;
+            --accent: #FFD1DC;
+            --light: #FFF0F5;
+            --text: #5A5A5A;
+            --border: #FFC0CB;
+        }
+        
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+        
+        body { 
+            font-family: 'Spoqa Han Sans Neo', 'Malgun Gothic', sans-serif; 
+            line-height: 1.2; 
+            color: var(--text);
+            background: linear-gradient(135deg, #FFF0F5 0%, #FFF8F8 100%);
+            min-height: 100vh;
+            font-size: 12px;
+        }
+        
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            padding: 8px; 
+        }
+        
+        /* 🎀 헤더 스타일 */
+        header { 
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 1px 5px rgba(255, 105, 180, 0.1);
+            padding: 0.6rem;
+            margin-bottom: 0.8rem;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .logo i {
+            margin-right: 4px;
+        }
+        
+        /* 🎀 카드 스타일 */
+        .card { 
+            background: white;
+            border-radius: 10px; 
+            padding: 1rem; 
+            margin-bottom: 0.6rem; 
+            box-shadow: 0 1px 5px rgba(255, 105, 180, 0.1);
+            border: 1px solid var(--border);
+        }
+        
+        .card-header { 
+            border-bottom: 1px dashed var(--border); 
+            padding-bottom: 0.5rem; 
+            margin-bottom: 0.6rem; 
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+        
+        .card-header i {
+            margin-right: 4px;
+            font-size: 0.8rem;
+        }
+        
+        /* 🎀 폼 스타일 */
+        .form-group { 
+            margin-bottom: 0.6rem; 
+        }
+        
+        label { 
+            display: block; 
+            margin-bottom: 0.2rem; 
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.7rem;
+        }
+        
+        input, select, textarea { 
+            width: 100%; 
+            padding: 0.4rem; 
+            border: 1px solid var(--border); 
+            border-radius: 6px; 
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 1px rgba(255, 105, 180, 0.2);
+            outline: none;
+        }
+        
+        /* 🎀 버튼 스타일 */
+        .btn { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 0.5rem 1rem; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 3px;
+        }
+        
+        .btn:hover { 
+            background: #ff4fa7; 
+            transform: translateY(-1px);
+            box-shadow: 0 1px 4px rgba(255, 105, 180, 0.3);
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+            color: var(--text);
+        }
+        
+        .btn-accent:hover {
+            background: #ffc2d1;
+        }
+        
+        /* 🎀 지역 선택 */
+        .region-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        .region-option {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem 0.3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .region-option:hover {
+            border-color: var(--primary);
+        }
+        
+        .region-option.selected {
+            border-color: var(--primary);
+            background: rgba(255, 105, 180, 0.1);
+        }
+        
+        .region-name {
+            font-weight: 600;
+            margin-bottom: 0.1rem;
+            font-size: 0.75rem;
+        }
+        
+        /* 🎀 날짜 카드 공통 스타일 */
+        .date-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.8rem;
+            margin-bottom: 0.6rem;
+            position: relative;
+        }
+        
+        .date-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .date-title {
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            font-size: 0.75rem;
+        }
+        
+        .date-number {
+            background: var(--primary);
+            color: white;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            margin-right: 4px;
+        }
+        
+        .remove-date {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            cursor: pointer;
+            font-size: 0.9rem;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .remove-date:hover {
+            background: rgba(255, 107, 107, 0.1);
+        }
+        
+        /* 🎀 울트라 컴팩트 그리드 레이아웃 */
+        .date-ultra-compact {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr 0.8fr 0.8fr 0.8fr;
+            gap: 0.4rem;
+            align-items: end;
+        }
+        
+        /* 🎀 비용 확인 섹션 - 울트라 컴팩트 */
+        .cost-summary-ultra-compact {
+            margin: 0.8rem 0;
+        }
+        
+        .schedule-summary-ultra-compact {
+            background: rgba(255, 240, 245, 0.7);
+            border-radius: 8px;
+            padding: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+        
+        .cost-breakdown-ultra-compact {
+            background: rgba(255, 240, 245, 0.7);
+            border-radius: 8px;
+            padding: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+        
+        .day-schedule-ultra-compact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 0.7rem;
+        }
+        
+        .day-schedule-ultra-compact:last-child {
+            border-bottom: none;
+        }
+        
+        .schedule-date-ultra-compact {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 40px;
+            font-size: 0.65rem;
+        }
+        
+        .schedule-details-ultra-compact {
+            flex: 1;
+            margin: 0 0.4rem;
+        }
+        
+        .schedule-resort-ultra-compact {
+            font-weight: 600;
+            margin-bottom: 0.1rem;
+            font-size: 0.7rem;
+        }
+        
+        .schedule-time-ultra-compact {
+            font-size: 0.65rem;
+            color: #777;
+        }
+        
+        .schedule-cost-ultra-compact {
+            font-weight: 600;
+            color: var(--primary);
+            min-width: 40px;
+            text-align: right;
+            font-size: 0.7rem;
+        }
+        
+        .cost-item-ultra-compact {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.4rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px dashed var(--border);
+            font-size: 0.7rem;
+        }
+        
+        .cost-total-ultra-compact {
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: var(--primary);
+            border-bottom: none;
+            margin-top: 0.2rem;
+            padding-top: 0.4rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        .payment-details-ultra-compact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+        }
+        
+        .payment-card-ultra-compact {
+            background: rgba(255, 240, 245, 0.7);
+            border-radius: 8px;
+            padding: 0.6rem;
+        }
+        
+        .payment-card-ultra-compact h4 {
+            margin-bottom: 0.4rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            font-size: 0.7rem;
+        }
+        
+        .payment-card-ultra-compact h4 i {
+            margin-right: 3px;
+        }
+        
+        /* 🎀 유틸리티 */
+        .hidden { display: none; }
+        .text-center { text-align: center; }
+        .mt-03 { margin-top: 0.3rem; }
+        .mb-03 { margin-bottom: 0.3rem; }
+        
+        /* 🎀 반응형 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 6px;
+            }
+            
+            .region-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            .date-ultra-compact {
+                grid-template-columns: 1fr;
+                gap: 0.4rem;
+            }
+            
+            .payment-details-ultra-compact {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-baby"></i> 핑크베이비시터
+            </div>
+        </header>
+
+        <!-- 고객 신청 섹션 -->
+        <section id="customer-form" class="card">
+            <div class="card-header">
+                <i class="fas fa-baby-carriage"></i>
+                <h2>베이비시터 예약하기</h2>
+            </div>
+            
+            <!-- 지역 선택 -->
+            <div class="form-group">
+                <label><i class="fas fa-map-marker-alt"></i> 지역 선택</label>
+                <div class="region-selector">
+                    <div class="region-option" data-region="danang">
+                        <div class="region-name">다낭</div>
+                    </div>
+                    <div class="region-option" data-region="nhatrang">
+                        <div class="region-name">나트랑</div>
+                    </div>
+                    <div class="region-option" data-region="phuquoc">
+                        <div class="region-name">푸꾸옥</div>
+                    </div>
+                </div>
+            </div>
+            
+            <form id="booking-form">
+                <!-- 첫 번째 날 -->
+                <div class="date-card" id="date-1">
+                    <div class="date-card-header">
+                        <div class="date-title">
+                            <span class="date-number">1</span>
+                            <span>첫 번째 날</span>
+                        </div>
+                    </div>
+                    
+                    <div class="date-ultra-compact">
+                        <div class="form-group">
+                            <label><i class="fas fa-umbrella-beach"></i> 리조트</label>
+                            <select class="resort-select" required>
+                                <option value="">선택하세요</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="far fa-calendar-alt"></i> 이용날짜</label>
+                            <input type="date" class="booking-date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="far fa-clock"></i> 시작</label>
+                            <select class="start-time" required>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="far fa-clock"></i> 종료</label>
+                            <select class="end-time" required>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-user-friends"></i> 시터 수</label>
+                            <select class="sitter-count" required>
+                                <option value="1">1명</option>
+                                <option value="2">2명</option>
+                                <option value="3">3명</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 추가 날짜들 -->
+                <div id="added-dates"></div>
+
+                <!-- 날짜 추가 버튼 -->
+                <div class="text-center">
+                    <button type="button" id="add-date-btn" class="btn btn-accent">
+                        <i class="fas fa-plus"></i> 다른 날짜 추가하기
+                    </button>
+                </div>
+
+                <!-- 특별 요청사항 -->
+                <div class="form-group mt-03">
+                    <label><i class="far fa-comment-dots"></i> 특별 요청사항</label>
+                    <textarea id="special-requests" name="special_requests" rows="1" placeholder="아이의 연령, 알레르기, 특별히 요청하실 사항이 있으면 입력해주세요"></textarea>
+                </div>
+
+                <!-- 환율 설정 -->
+                <div class="form-group mt-03">
+                    <label><i class="fas fa-exchange-alt"></i> USD → KRW 환율</label>
+                    <input type="number" id="exchange-rate" name="exchange_rate" value="1450" step="0.1" min="1000" max="2000">
+                    <small style="color: #777; font-size: 0.6rem;">* 네이버 환율 기준으로 조정해주세요</small>
+                </div>
+
+                <!-- 비용 계산 버튼 -->
+                <div class="text-center">
+                    <button type="button" id="calculate-btn" class="btn">
+                        <i class="fas fa-calculator"></i> 비용 확인하기
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- 비용 확인 섹션 -->
+        <section id="calculation-result" class="card hidden">
+            <div class="card-header">
+                <i class="fas fa-receipt"></i>
+                <h2>비용 확인</h2>
+            </div>
+            
+            <div class="cost-summary-ultra-compact">
+                <!-- 일정 요약 -->
+                <div class="schedule-summary-ultra-compact">
+                    <h3 style="margin-bottom: 0.4rem; color: var(--primary); font-size: 0.75rem;">📅 일정 요약</h3>
+                    <div id="schedule-details"></div>
+                </div>
+                
+                <!-- 비용 상세 -->
+                <div class="cost-breakdown-ultra-compact">
+                    <h3 style="margin-bottom: 0.4rem; color: var(--primary); font-size: 0.75rem;">💰 비용 상세</h3>
+                    <div class="cost-item-ultra-compact">
+                        <span>총 이용 시간</span>
+                        <span id="total-hours">0시간</span>
+                    </div>
+                    
+                    <div class="cost-item-ultra-compact">
+                        <span>총 기본 요금</span>
+                        <span id="base-cost">$0</span>
+                    </div>
+                    
+                    <div class="cost-item-ultra-compact">
+                        <span>총 교통비</span>
+                        <span id="transport-cost">$0</span>
+                    </div>
+                    
+                    <div class="cost-item-ultra-compact cost-total-ultra-compact">
+                        <span>총 비용</span>
+                        <span id="total-cost">$0</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 결제 정보 -->
+            <div class="payment-details-ultra-compact">
+                <div class="payment-card-ultra-compact">
+                    <h4><i class="fas fa-money-bill-wave"></i> 예약금 (20%)</h4>
+                    <div class="cost-item-ultra-compact">
+                        <span>USD</span>
+                        <span id="deposit-usd">$0</span>
+                    </div>
+                    <div class="cost-item-ultra-compact">
+                        <span>KRW</span>
+                        <span id="deposit-krw">0원</span>
+                    </div>
+                </div>
+                
+                <div class="payment-card-ultra-compact">
+                    <h4><i class="fas fa-wallet"></i> 잔금</h4>
+                    <div class="cost-item-ultra-compact">
+                        <span>USD</span>
+                        <span id="balance-usd">$0</span>
+                    </div>
+                    <div class="cost-item-ultra-compact">
+                        <span>VND</span>
+                        <span id="balance-vnd">0동</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button type="button" id="confirm-booking" class="btn">
+                    <i class="far fa-calendar-check"></i> 예약 확정하기
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // 리조트 데이터
+        const resorts = {
+            danang: [
+                { id: 1, name: "푸라마 다낭", area: "다낭", transportZone: "A", rate: 5 },
+                { id: 2, name: "인터컨티넨탈", area: "다낭", transportZone: "A", rate: 5 },
+                { id: 3, name: "셰라톤 다낭", area: "다낭", transportZone: "A", rate: 5 },
+                { id: 4, name: "힐튼 다낭", area: "다낭", transportZone: "B", rate: 5 },
+                { id: 5, name: "풀먼 다낭", area: "다낭", transportZone: "B", rate: 5 }
+            ],
+            nhatrang: [
+                { id: 6, name: "빈펄 리조트", area: "나트랑", transportZone: "B", rate: 6 },
+                { id: 7, name: "아마리나", area: "나트랑", transportZone: "B", rate: 6 },
+                { id: 8, name: "셰라톤 나트랑", area: "나트랑", transportZone: "B", rate: 6 },
+                { id: 9, name: "인터컨티넨탈 나트랑", area: "나트랑", transportZone: "C", rate: 6 }
+            ],
+            phuquoc: [
+                { id: 10, name: "JW 메리오트", area: "푸꾸옥", transportZone: "C", rate: 7 },
+                { id: 11, name: "노보텔", area: "푸꾸옥", transportZone: "C", rate: 7 },
+                { id: 12, name: "셰라톤 푸꾸옥", area: "푸꾸옥", transportZone: "C", rate: 7 },
+                { id: 13, name: "샹그릴라 푸꾸옥", area: "푸꾸옥", transportZone: "C", rate: 7 }
+            ]
+        };
+
+        // 시간 옵션 생성 (06:00~24:00, 30분 단위)
+        function generateTimeOptions() {
+            const times = [];
+            
+            // 06:00부터 23:30까지
+            for (let hour = 6; hour <= 23; hour++) {
+                times.push(`${hour.toString().padStart(2, '0')}:00`);
+                if (hour !== 23) {
+                    times.push(`${hour.toString().padStart(2, '0')}:30`);
+                }
+            }
+            
+            // 24:00 추가
+            times.push('24:00');
+            
+            return times;
+        }
+
+        // 지역 선택
+        let selectedRegion = '';
+        document.querySelectorAll('.region-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // 모든 지역 선택 해제
+                document.querySelectorAll('.region-option').forEach(el => {
+                    el.classList.remove('selected');
+                });
+                // 현재 지역 선택
+                this.classList.add('selected');
+                selectedRegion = this.dataset.region;
+                
+                // 해당 지역의 리조트 표시
+                renderResortOptions(selectedRegion);
+            });
+        });
+
+        // 리조트 선택 UI 생성 (드롭다운)
+        function renderResortOptions(region) {
+            const selectElements = document.querySelectorAll('.resort-select');
+            
+            selectElements.forEach(selectElement => {
+                selectElement.innerHTML = '<option value="">선택하세요</option>';
+                
+                // 해당 지역의 리조트 추가
+                resorts[region].forEach(resort => {
+                    const option = document.createElement('option');
+                    option.value = JSON.stringify(resort);
+                    option.textContent = `${resort.name} (Zone ${resort.transportZone})`;
+                    selectElement.appendChild(option);
+                });
+                
+                // 기타 옵션 추가
+                const otherOption = document.createElement('option');
+                otherOption.value = JSON.stringify({ 
+                    name: '', 
+                    area: region, 
+                    transportZone: 'B', 
+                    rate: region === 'danang' ? 5 : region === 'nhatrang' ? 6 : 7 
+                });
+                otherOption.textContent = "기타 (직접 입력)";
+                selectElement.appendChild(otherOption);
+                
+                // 리조트 선택 이벤트
+                selectElement.addEventListener('change', function() {
+                    if (this.value) {
+                        // 선택된 리조트 정보 저장
+                        this.closest('.date-card').dataset.selectedResort = this.value;
+                    }
+                });
+            });
+        }
+
+        // 시간 선택 UI 생성
+        function renderTimeOptions() {
+            const times = generateTimeOptions();
+            const selectElements = document.querySelectorAll('.start-time, .end-time');
+            
+            selectElements.forEach(selectElement => {
+                selectElement.innerHTML = '';
+                
+                times.forEach(time => {
+                    const option = document.createElement('option');
+                    option.value = time;
+                    option.textContent = time;
+                    selectElement.appendChild(option);
+                });
+                
+                // 기본값 설정
+                selectElement.value = '14:00';
+            });
+        }
+
+        // 날짜 추가 기능
+        let dateCounter = 1;
+        
+        document.getElementById('add-date-btn').addEventListener('click', function() {
+            if (!selectedRegion) {
+                alert('먼저 지역을 선택해주세요.');
+                return;
+            }
+            
+            dateCounter++;
+            const addedDatesContainer = document.getElementById('added-dates');
+            
+            const firstDate = document.querySelector('.booking-date').value;
+            const firstStartTime = document.querySelector('.start-time').value;
+            const firstEndTime = document.querySelector('.end-time').value;
+            const firstSitterCount = document.querySelector('.sitter-count').value;
+            
+            // 다음 날짜 계산
+            const nextDate = new Date(firstDate);
+            nextDate.setDate(nextDate.getDate() + (dateCounter - 1));
+            const nextDateStr = nextDate.toISOString().split('T')[0];
+            
+            const dateCard = document.createElement('div');
+            dateCard.className = 'date-card';
+            dateCard.id = `date-${dateCounter}`;
+            dateCard.innerHTML = `
+                <div class="date-card-header">
+                    <div class="date-title">
+                        <span class="date-number">${dateCounter}</span>
+                        <span>${dateCounter}번째 날</span>
+                    </div>
+                    <button type="button" class="remove-date">&times;</button>
+                </div>
+                
+                <div class="date-ultra-compact">
+                    <div class="form-group">
+                        <label><i class="fas fa-umbrella-beach"></i> 리조트</label>
+                        <select class="resort-select" required>
+                            <option value="">선택하세요</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="far fa-calendar-alt"></i> 이용날짜</label>
+                        <input type="date" class="booking-date" value="${nextDateStr}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="far fa-clock"></i> 시작</label>
+                        <select class="start-time" required>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="far fa-clock"></i> 종료</label>
+                        <select class="end-time" required>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-user-friends"></i> 시터 수</label>
+                        <select class="sitter-count" required>
+                            <option value="1">1명</option>
+                            <option value="2">2명</option>
+                            <option value="3">3명</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            
+            // 시간 선택기 설정
+            const startSelect = dateCard.querySelector('.start-time');
+            const endSelect = dateCard.querySelector('.end-time');
+            const times = generateTimeOptions();
+            
+            times.forEach(time => {
+                const option1 = document.createElement('option');
+                option1.value = time;
+                option1.textContent = time;
+                startSelect.appendChild(option1);
+                
+                const option2 = document.createElement('option');
+                option2.value = time;
+                option2.textContent = time;
+                endSelect.appendChild(option2);
+            });
+            
+            startSelect.value = firstStartTime;
+            endSelect.value = firstEndTime;
+            dateCard.querySelector('.sitter-count').value = firstSitterCount;
+            
+            // 리조트 선택기 설정
+            const resortSelect = dateCard.querySelector('.resort-select');
+            resortSelect.innerHTML = '<option value="">선택하세요</option>';
+            
+            resorts[selectedRegion].forEach(resort => {
+                const option = document.createElement('option');
+                option.value = JSON.stringify(resort);
+                option.textContent = `${resort.name} (Zone ${resort.transportZone})`;
+                resortSelect.appendChild(option);
+            });
+            
+            // 기타 옵션 추가
+            const otherOption = document.createElement('option');
+            otherOption.value = JSON.stringify({ 
+                name: '', 
+                area: selectedRegion, 
+                transportZone: 'B', 
+                rate: selectedRegion === 'danang' ? 5 : selectedRegion === 'nhatrang' ? 6 : 7 
+            });
+            otherOption.textContent = "기타 (직접 입력)";
+            resortSelect.appendChild(otherOption);
+            
+            // 리조트 선택 이벤트
+            resortSelect.addEventListener('change', function() {
+                if (this.value) {
+                    dateCard.dataset.selectedResort = this.value;
+                }
+            });
+            
+            // 삭제 버튼 이벤트
+            dateCard.querySelector('.remove-date').addEventListener('click', function() {
+                dateCard.remove();
+                dateCounter--;
+                updateDateNumbers();
+            });
+            
+            addedDatesContainer.appendChild(dateCard);
+        });
+
+        // 날짜 번호 업데이트
+        function updateDateNumbers() {
+            const dateCards = document.querySelectorAll('.date-card');
+            dateCards.forEach((card, index) => {
+                const numberElement = card.querySelector('.date-number');
+                const titleElement = card.querySelector('.date-title span:last-child');
+                
+                if (numberElement) {
+                    numberElement.textContent = index + 1;
+                }
+                
+                if (titleElement) {
+                    if (index === 0) {
+                        titleElement.textContent = '첫 번째 날';
+                    } else {
+                        titleElement.textContent = `${index + 1}번째 날`;
+                    }
+                }
+                
+                card.id = `date-${index + 1}`;
+            });
+        }
+
+        // 비용 계산
+        document.getElementById('calculate-btn').addEventListener('click', function() {
+            if (!selectedRegion) {
+                alert('지역을 선택해주세요.');
+                return;
+            }
+            
+            const dateCards = document.querySelectorAll('.date-card');
+            let totalBaseCost = 0;
+            let totalTransportCost = 0;
+            let totalHours = 0;
+            
+            const scheduleDetails = document.getElementById('schedule-details');
+            scheduleDetails.innerHTML = '';
+            
+            let hasError = false;
+            
+            // 각 날짜별 계산
+            dateCards.forEach((card, index) => {
+                const selectedResortJson = card.dataset.selectedResort;
+                if (!selectedResortJson) {
+                    alert(`${index + 1}번째 날의 리조트를 선택해주세요.`);
+                    hasError = true;
+                    return;
+                }
+                
+                const selectedResort = JSON.parse(selectedResortJson);
+                const startTime = card.querySelector('.start-time').value;
+                const endTime = card.querySelector('.end-time').value;
+                const date = card.querySelector('.booking-date').value;
+                const sitterCount = parseInt(card.querySelector('.sitter-count').value);
+                
+                if (!startTime || !endTime) {
+                    alert(`${index + 1}번째 날의 시간을 선택해주세요.`);
+                    hasError = true;
+                    return;
+                }
+                
+                // 시간 계산
+                const hours = calculateHours(startTime, endTime);
+                if (hours <= 0) {
+                    alert(`${index + 1}번째 날의 종료 시간이 시작 시간보다 빠릅니다.`);
+                    hasError = true;
+                    return;
+                }
+                
+                totalHours += hours;
+                
+                // 비용 계산
+                const baseCost = hours * selectedResort.rate * sitterCount;
+                const transportCost = selectedResort.transportZone === 'A' ? 5 : 
+                                     selectedResort.transportZone === 'B' ? 6 : 7;
+                
+                totalBaseCost += baseCost;
+                totalTransportCost += transportCost;
+                
+                const dayCost = baseCost + transportCost;
+                
+                // 일정 요약에 추가 (이용 시간 표시)
+                const daySchedule = document.createElement('div');
+                daySchedule.className = 'day-schedule-ultra-compact';
+                daySchedule.innerHTML = `
+                    <div class="schedule-date-ultra-compact">${formatDate(date)}</div>
+                    <div class="schedule-details-ultra-compact">
+                        <div class="schedule-resort-ultra-compact">${selectedResort.name || '기타 리조트'}</div>
+                        <div class="schedule-time-ultra-compact">${startTime} ~ ${endTime} (${sitterCount}명) (${hours}시간)</div>
+                    </div>
+                    <div class="schedule-cost-ultra-compact">$${dayCost.toFixed(2)}</div>
+                `;
+                
+                scheduleDetails.appendChild(daySchedule);
+            });
+            
+            if (hasError) return;
+            
+            const totalCost = totalBaseCost + totalTransportCost;
+            const deposit = totalCost * 0.2;
+            const balance = totalCost * 0.8;
+            const exchangeRate = parseFloat(document.getElementById('exchange-rate').value) || 1450;
+            const vndRate = exchangeRate * (100 / 5.5); // 100동 = 5.5원 기준
+            
+            // 결과 표시
+            document.getElementById('total-hours').textContent = `${totalHours.toFixed(1)}시간`;
+            document.getElementById('base-cost').textContent = `$${totalBaseCost.toFixed(2)}`;
+            document.getElementById('transport-cost').textContent = `$${totalTransportCost.toFixed(2)}`;
+            document.getElementById('total-cost').textContent = `$${totalCost.toFixed(2)}`;
+            document.getElementById('deposit-usd').textContent = `$${deposit.toFixed(2)}`;
+            document.getElementById('deposit-krw').textContent = `${Math.round(deposit * exchangeRate).toLocaleString()}원`;
+            document.getElementById('balance-usd').textContent = `$${balance.toFixed(2)}`;
+            document.getElementById('balance-vnd').textContent = `${Math.round(balance * vndRate).toLocaleString()}동`;
+            
+            document.getElementById('calculation-result').classList.remove('hidden');
+        });
+
+        // 시간 계산 함수 (24:00 처리 포함)
+        function calculateHours(startTime, endTime) {
+            // 24:00을 24.0으로 처리
+            const startHour = startTime === '24:00' ? 24 : parseInt(startTime.split(':')[0]);
+            const startMinute = startTime === '24:00' ? 0 : parseInt(startTime.split(':')[1]);
+            const endHour = endTime === '24:00' ? 24 : parseInt(endTime.split(':')[0]);
+            const endMinute = endTime === '24:00' ? 0 : parseInt(endTime.split(':')[1]);
+            
+            const hours = (endHour + endMinute/60) - (startHour + startMinute/60);
+            return parseFloat(hours.toFixed(1)); // 소수점 첫째자리까지 표시
+        }
+
+        // 날짜 포맷팅
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            return `${month}/${day}`;
+        }
+
+        // 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            // 시간 선택기 설정
+            renderTimeOptions();
+            
+            // 오늘 날짜를 기본값으로 설정
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelector('.booking-date').value = today;
+        });
+    </script>
+</body>
+</html>
